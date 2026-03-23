@@ -33,12 +33,19 @@ cd rivian-ls && make build && cp rivian-ls /usr/local/bin/
 brew install pfrederiksen/tap/rivian-ls
 ```
 
-### Authenticate (one-time)
+### Authenticate (two-phase MFA)
+
+Rivian requires MFA. Use the two-phase flow:
 
 ```bash
-rivian-ls status
-# Prompts for email, password, MFA — credentials cached automatically
+# Phase 1: Send credentials, triggers SMS code
+rivian-ls login --email user@example.com --password secret
+
+# Phase 2: Complete with OTP after receiving SMS (within ~60 seconds)
+rivian-ls login --otp 123456
 ```
+
+Credentials are cached automatically at `~/.config/rivian-ls/credentials.json` and auto-refresh. Subsequent runs use the cache — no re-auth needed unless tokens expire.
 
 ## Usage
 
